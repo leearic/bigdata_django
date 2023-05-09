@@ -68,6 +68,7 @@ def do_data_diff(data):
         deduplication.status = True
         deduplication.out_data = outpath
     except Exception as e:
+        print('e')
         deduplication.error = True
     deduplication.task_done =True
     deduplication.update_date = datetime.datetime.now()

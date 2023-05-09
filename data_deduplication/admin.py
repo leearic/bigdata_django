@@ -38,6 +38,12 @@ class Deduplication_admin(admin.ModelAdmin):
             data = serializers.serialize('json', queryset)
             do_data_diff.delay(data=data)
 
+    def get_queryset(self, request):
+        qs = super(Deduplication_admin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user=request.user)
+
 
     do_data_diff.short_description = '立即分析'
     url.short_description = '动作'
