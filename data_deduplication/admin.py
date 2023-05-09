@@ -10,15 +10,14 @@ from django.core import serializers
 from . models import Deduplication
 
 class Deduplication_admin(admin.ModelAdmin):
-    list_display = ['id', 'taskname', "raw_data", 'comparative_data', 'url', 'status', 'error', 'task_done', 'create_date']
+    list_display = ['id', 'taskname', "raw_data", 'comparative_data', 'url', 'status', 'error', 'task_done', 'create_date', 'update_date']
     list_display_links = ['taskname']
-    # list_filter = ['hostname',]
-    # search_fields = ['hostname', ]
+    readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date']
     list_per_page = 10
     actions = ['do_data_diff']
     def url(self, obj):
         if obj.status is True:
-            return format_html('<a  target="_blank" href="/images/%s/">下载文件</a>' % (obj.out_data))
+            return format_html('<a  target="_blank" href="/images/%s/">立即下载</a>' % (obj.out_data))
         else:
             return format_html('<a  target="_blank">任务执行中</a>')
 
@@ -40,10 +39,8 @@ class Deduplication_admin(admin.ModelAdmin):
             do_data_diff.delay(data=data)
 
 
-
-
-    do_data_diff.short_description = '测试按钮'
-    url.short_description = 'download'
+    do_data_diff.short_description = '立即分析'
+    url.short_description = '动作'
     # icon，参考element-ui icon与https://fontawesome.com
     do_data_diff.icon = 'fas fa-audio-description'
 

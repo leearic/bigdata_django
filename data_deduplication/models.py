@@ -18,11 +18,13 @@ class Deduplication(models.Model):
     taskname = models.CharField(max_length=255, verbose_name="任务名称", help_text='任务名称')
     raw_data = models.FileField(verbose_name="原始数据", help_text='原始数据', upload_to=user_directory_path)
     comparative_data = models.FileField(verbose_name="去重数据", help_text='去重数据', upload_to=user_directory_path)
-    out_data = models.FileField(verbose_name="去重hou数据", help_text='去重hou数据', upload_to=user_directory_path, null=True, blank=True)
+    out_data = models.FileField(verbose_name="去重的数据", help_text='去重的数据', upload_to=user_directory_path, null=True, blank=True)
     status = models.BooleanField(verbose_name="状态", help_text='状态', default=False)
     error = models.BooleanField(verbose_name="错误", help_text='错误', default=False)
-    task_done = models.BooleanField(verbose_name="错误", help_text='错误', default=False)
+    task_done = models.BooleanField(verbose_name="任务", help_text='任务', default=False)
     create_date = models.DateTimeField(auto_now=True)
+    update_date = models.DateTimeField(auto_now=True, null=True, blank=True)
+
     class Meta:
         verbose_name = u'数据去重'
         verbose_name_plural = u'数据去重'

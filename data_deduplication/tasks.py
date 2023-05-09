@@ -70,6 +70,7 @@ def do_data_diff(data):
     except Exception as e:
         deduplication.error = True
     deduplication.task_done =True
+    deduplication.update_date = datetime.datetime.now()
     deduplication.save()
 
 
