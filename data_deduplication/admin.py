@@ -42,7 +42,7 @@ class Deduplication_admin(admin.ModelAdmin):
         qs = super(Deduplication_admin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
-        return qs.filter(user=request.user)
+        return qs.filter(User=request.user)
 
 
     do_data_diff.short_description = '立即分析'
