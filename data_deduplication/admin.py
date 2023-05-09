@@ -12,7 +12,7 @@ from . models import Deduplication
 class Deduplication_admin(admin.ModelAdmin):
     list_display = ['id', 'taskname', "raw_data", 'comparative_data', 'url', 'status', 'error', 'task_done', 'create_date', 'update_date']
     list_display_links = ['taskname']
-    readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date']
+    readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date', 'doituser']
     list_per_page = 10
     actions = ['do_data_diff']
     def url(self, obj):
