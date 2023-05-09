@@ -45,6 +45,12 @@ class Deduplication_admin(admin.ModelAdmin):
         return qs.filter(doituser=request.user)
 
 
+    def save_model(self, request, obj, form, change):
+        obj.doituser = request.user
+        super().save_model(request, obj, form, change)
+
+
+
     do_data_diff.short_description = '立即分析'
     url.short_description = '动作'
     # icon，参考element-ui icon与https://fontawesome.com
