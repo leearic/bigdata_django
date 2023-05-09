@@ -22,7 +22,7 @@ class Deduplication(models.Model):
     status = models.BooleanField(verbose_name="状态", help_text='状态', default=False)
     error = models.BooleanField(verbose_name="错误", help_text='错误', default=False)
     task_done = models.BooleanField(verbose_name="任务", help_text='任务', default=False)
-    doituser = models.ForeignKey(User)
+    doituser = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='User')
     create_date = models.DateTimeField(auto_now=True)
     update_date = models.DateTimeField(auto_now=True, null=True, blank=True)
 
