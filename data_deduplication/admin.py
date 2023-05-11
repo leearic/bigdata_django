@@ -33,9 +33,13 @@ class Deduplication_admin(admin.ModelAdmin):
     def do_data_diff(self, request, queryset):
 
         if len(queryset) > 1:
+
             messages.error(request, 'error ')
         else:
+            queryset[0].status =True
+            queryset[0].save()
             data = serializers.serialize('json', queryset)
+
             do_data_diff.delay(data=data)
 
     def get_queryset(self, request):
