@@ -5,7 +5,7 @@ admin.site.site_title = "数据查重平台"
 admin.site.site_header = "数据查重平台"
 from django.utils.html import format_html
 
-from .tasks import  do_data_diff
+from .tasks import do_data_diff
 from django.core import serializers
 from . models import Deduplication
 
