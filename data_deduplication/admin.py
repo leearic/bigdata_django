@@ -19,7 +19,7 @@ class Origdata_admin(admin.ModelAdmin):
 class Deduplication_admin(admin.ModelAdmin):
     list_display = ['id', 'taskname', 'url', 'status', 'error', 'task_done', 'create_date', 'update_date']
     list_display_links = ['taskname']
-    # readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date', 'doituser']
+    readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date', 'doituser']
     list_per_page = 10
     actions = ['do_data_diff']
     filter_horizontal = ['origdata', 'DiffData']
@@ -29,14 +29,14 @@ class Deduplication_admin(admin.ModelAdmin):
         else:
             return format_html('<a  target="_blank">任务执行中</a>')
 
-    # def has_add_permission(self, request):
-    #     return  False
+    def has_add_permission(self, request):
+        return  False
 
-    # def has_delete_permission(self, request, obj=None):
-    #     return False
-    #
-    # def has_change_permission(self, request, obj=None):
-    #     return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
     def do_data_diff(self, request, queryset):
 
