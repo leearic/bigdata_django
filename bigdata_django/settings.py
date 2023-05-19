@@ -139,6 +139,6 @@ STATIC_ROOT = './static/'
 
 import  os
 
-MEIDABASEURL = 'static/data/'
+MEIDABASEURL = './static/data/'
 MEDIA_ROOT = os.path.join(BASE_DIR, MEIDABASEURL)
 MEDIA_URL = '/images/'

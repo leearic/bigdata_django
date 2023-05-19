@@ -1,0 +1,43 @@
+# GIScriptAlias /  /data/easy_index/easy_easyops/wsgi.py
+WSGIPythonHome   /usr/local/easy_data_venv
+WSGIPythonPath  /data/bigdata_django
+
+
+
+<VirtualHost *:80>
+   ServerName  data.limehub.cc
+
+
+WSGIScriptAlias /  /data/bigdata_django/bigdata_django/wsgi.py
+
+
+
+alias /static   /data/bigdata_django/static
+# alias /images   /data/bigdata_django/static/data
+
+<Directory '/data/bigdata_django/static'>
+        	 IndexOptions Charset=utf-8
+		Options FollowSymLinks
+                Order allow,deny
+                Allow from all
+                Require all granted
+</Directory>
+DocumentRoot "/data/bigdata_django"
+#
+# Relax access to content within /var/www.
+#
+
+<Directory "/data/bigdata_django/bigdata_django">
+    IndexOptions Charset=UTF-8
+    AllowOverride ALL
+    # Allow open access:
+    Require all granted
+
+	<Files wsgi.py>
+                        Require all granted
+        </Files>
+</Directory>
+
+
+
+</VirtualHost>
