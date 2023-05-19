@@ -50,7 +50,7 @@ class XLSXUTIL():
         df.to_csv('static/data/' + outpath, header=True, index=False, encoding='utf-8')
         return outpath
 
-@app.task(throws=(Terminated),  soft_time_limit=120, time_limit=120)
+@app.task(throws=(Terminated),  soft_time_limit=240, time_limit=240)
 def do_data_diff(data):
     aa = XLSXUTIL()
     data = json.loads(data)
