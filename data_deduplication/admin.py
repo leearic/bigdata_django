@@ -29,8 +29,8 @@ class Deduplication_admin(admin.ModelAdmin):
         else:
             return format_html('<a  target="_blank">任务执行中</a>')
 
-    def has_add_permission(self, request):
-        return  False
+    # def has_add_permission(self, request):
+    #     return  False
 
     def has_delete_permission(self, request, obj=None):
         return False
