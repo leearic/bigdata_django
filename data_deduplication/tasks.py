@@ -14,7 +14,7 @@ class XLSXUTIL():
     def xlsx_to_csv(self, xlsx_file_path):
         try:
             data_xls = pd.read_excel(xlsx_file_path, index_col=0, engine='openpyxl')
-            data_xls.to_csv(xlsx_file_path + '.csv', encoding='utf-8')
+            data_xls.to_csv('./static/data/' + str(xlsx_file_path) + '.csv')
             return True
         except Exception as e:
             print(e)

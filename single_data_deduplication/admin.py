@@ -5,7 +5,7 @@ admin.site.site_title = "数据查重平台"
 admin.site.site_header = "数据查重平台"
 from django.utils.html import format_html
 
-# from .tasks import do_data_diff
+from .tasks import do_single_data_diff
 from django.core import serializers
 from . models import Deduplication, Diffclum, Origclum
 
@@ -37,11 +37,11 @@ class Deduplication_admin(admin.ModelAdmin):
     # def has_add_permission(self, request):
     #     return  False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
-    def has_change_permission(self, request, obj=None):
-        return False
+    # def has_change_permission(self, request, obj=None):
+    #     return False
 
     def do_data_diff(self, request, queryset):
 
@@ -53,7 +53,7 @@ class Deduplication_admin(admin.ModelAdmin):
             queryset[0].save()
             data = serializers.serialize('json', queryset)
 
-            # do_data_diff.delay(data=data)
+            do_single_data_diff.delay(data=data)
 
     def get_queryset(self, request):
         qs = super(Deduplication_admin, self).get_queryset(request)
