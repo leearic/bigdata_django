@@ -45,7 +45,7 @@ class XLSXUTIL():
             diffdatalist_values = diffdatalist_values + row_data[ii].drop_duplicates().values.tolist()
         diffdatalist_values = set(diffdatalist_values)
 
-        diff_set = list(diffdatalist_values - (origdatalist_values & diffdatalist_values))
+        diff_set = list(set(diffdatalist_values - (origdatalist_values & diffdatalist_values)))
 
         # #
         df = pd.DataFrame(diff_set, columns=['Diff'])
@@ -62,12 +62,24 @@ def do_single_data_diff(data):
     logger.info(data)
 
     deduplication = Deduplication.objects.get(id=data[0]['pk'])
-    # cover xmls to csv
-    aa.xlsx_to_csv(deduplication.raw_data)
-    aa.do_data_diff(deduplication)
+
+    if deduplication.task_done is True:
+        return
+    try:
+        # cover xmls to csv
+        aa.xlsx_to_csv(deduplication.raw_data)
 
 
+        outpath = ''
+        outpath = aa.do_data_diff(deduplication)
+        deduplication.status = True
+        deduplication.out_data = outpath
 
-
+    except Exception as e:
+        deduplication.errorlog = e
+        deduplication.error = True
+    deduplication.task_done = True
+    deduplication.update_date = datetime.datetime.now()
+    deduplication.save()
 
 

@@ -41,7 +41,7 @@ class XLSXUTIL():
 
         row_data_set = set(row_data_ld.to_dict().values())
         diff_data_set = set(diff_data_ld.to_dict().values())
-        diff_set = list(diff_data_set - (row_data_set & diff_data_set))
+        diff_set = list(set(diff_data_set - (row_data_set & diff_data_set)))
         #
         df = pd.DataFrame(diff_set, columns=['phone'])
         dirs = 'out/{0}/{1}'.format(nowtime, general)
