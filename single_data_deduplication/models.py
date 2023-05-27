@@ -43,7 +43,7 @@ class Deduplication(models.Model):
     '''
         数据去重
     '''
-    taskname = models.CharField(max_length=255, verbose_name="任务名称", help_text='任务名称')
+    taskname = models.CharField(max_length=255, verbose_name="Single任务", help_text='Single任务')
     raw_data = models.FileField(verbose_name="原始数据", help_text='原始数据', upload_to=user_directory_path)
 
     origdata = models.ManyToManyField(Origclum)
@@ -60,9 +60,9 @@ class Deduplication(models.Model):
     update_date = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
-        verbose_name = u'task'
-        verbose_name_plural = u'task'
+        verbose_name = u'Single任务'
+        verbose_name_plural = u'Single任务'
         ordering = ['-id']
 
     def __str__(self):
-        return 'task: 任务名称-' + str(self.taskname)
+        return 'Single任务: 名称--' + str(self.taskname)

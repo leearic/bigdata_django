@@ -15,7 +15,7 @@ class Origdata(models.Model):
     '''
         数据去重
     '''
-    name = models.CharField(max_length=255, verbose_name="原始数据name", help_text='原始数据name')
+    name = models.CharField(max_length=255, verbose_name="原始数据", help_text='原始数据')
     raw_data = models.FileField(verbose_name="原始数据", help_text='原始数据', upload_to=user_directory_path)
 
     class Meta:
@@ -28,7 +28,7 @@ class Origdata(models.Model):
 
 
 class DiffData(models.Model):
-    name = models.CharField(max_length=255, verbose_name="去重数据name", help_text='去重数据name')
+    name = models.CharField(max_length=255, verbose_name="去重数据", help_text='去重数据')
     comparative_data = models.FileField(verbose_name="去重数据", help_text='去重数据', upload_to=user_directory_path)
 
     class Meta:
@@ -41,7 +41,7 @@ class DiffData(models.Model):
 
 
 class Deduplication(models.Model):
-    taskname = models.CharField(max_length=255, verbose_name="taskname", help_text='taskname')
+    taskname = models.CharField(max_length=255, verbose_name="Multi任务", help_text='Multi任务')
     origdata = models.ManyToManyField(Origdata)
     DiffData = models.ManyToManyField(DiffData)
     out_data = models.FileField(verbose_name="去重的数据", help_text='去重的数据', upload_to=user_directory_path, null=True, blank=True)
@@ -54,9 +54,9 @@ class Deduplication(models.Model):
     update_date = models.DateTimeField(auto_now=True, null=True, blank=True)
 
     class Meta:
-        verbose_name = u'task'
-        verbose_name_plural = u'task'
+        verbose_name = u'Multi任务'
+        verbose_name_plural = u'Multi任务'
         ordering = ['-id']
 
     def __str__(self):
-        return 'task: ' + str(self.taskname)
+        return 'Multi任务: ' + str(self.taskname)
