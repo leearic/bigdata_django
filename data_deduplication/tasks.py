@@ -9,12 +9,16 @@ from billiard.exceptions import Terminated
 from django.conf import settings
 import pandas as pd
 import uuid
+from loguru import logger
+
 import datetime
+
+
 class XLSXUTIL():
     def xlsx_to_csv(self, xlsx_file_path):
         try:
             data_xls = pd.read_excel(xlsx_file_path, index_col=0, engine='openpyxl')
-            data_xls.to_csv('./static/data/' + str(xlsx_file_path) + '.csv')
+            data_xls.to_csv(str(xlsx_file_path) + '.csv')
             return True
         except Exception as e:
             print(e)
@@ -55,34 +59,36 @@ def do_data_diff(data):
     aa = XLSXUTIL()
     data = json.loads(data)
 
-    deduplication = Deduplication.objects.get(id=data[0]['pk'])
+    for ii in data:
+        logger.info(ii)
 
-    if deduplication.task_done is True:
-        return
-    try:
-        origdata_data_path_list = []
-        for i in deduplication.origdata.all():
-            origdata_data_path = settings.MEIDABASEURL + str(i.raw_data)
-            aa.xlsx_to_csv(origdata_data_path)
-            origdata_data_path_list.append(origdata_data_path)
+        deduplication = Deduplication.objects.get(id=ii['pk'])
+        if deduplication.task_done is True:
+            continue
+        try:
+            origdata_data_path_list = []
+            for i in deduplication.origdata.all():
+                origdata_data_path = settings.MEIDABASEURL + str(i.raw_data)
+                aa.xlsx_to_csv(origdata_data_path)
+                origdata_data_path_list.append(origdata_data_path)
 
-        comparative_data_path_list = []
-        for i in deduplication.DiffData.all():
-            comparative_data_path = settings.MEIDABASEURL + str(i.comparative_data)
-            comparative_data_path_list.append(comparative_data_path)
-            aa.xlsx_to_csv(comparative_data_path)
+            comparative_data_path_list = []
+            for i in deduplication.DiffData.all():
+                comparative_data_path = settings.MEIDABASEURL + str(i.comparative_data)
+                comparative_data_path_list.append(comparative_data_path)
+                aa.xlsx_to_csv(comparative_data_path)
 
-        outpath = ''
-        outpath = aa.do_data_diff(origdata_data_path_list, comparative_data_path_list)
-        deduplication.status = True
-        deduplication.out_data = outpath
+            outpath = ''
+            outpath = aa.do_data_diff(origdata_data_path_list, comparative_data_path_list)
+            deduplication.status = True
+            deduplication.out_data = outpath
 
-    except Exception as e:
-        deduplication.errorlog = e
-        deduplication.error = True
-    deduplication.task_done = True
-    deduplication.update_date = datetime.datetime.now()
-    deduplication.save()
+        except Exception as e:
+            deduplication.errorlog = e
+            deduplication.error = True
+        deduplication.task_done = True
+        deduplication.update_date = datetime.datetime.now()
+        deduplication.save()
 
 
 

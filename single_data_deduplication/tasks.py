@@ -59,27 +59,25 @@ class XLSXUTIL():
 def do_single_data_diff(data):
     aa = XLSXUTIL()
     data = json.loads(data)
-    logger.info(data)
 
-    deduplication = Deduplication.objects.get(id=data[0]['pk'])
+    for ii in data:
+        logger.info('current id is: ' + str(ii))
+        deduplication = Deduplication.objects.get(id=ii['pk'])
+        if deduplication.task_done is True:
+            continue
+        try:
+            # cover xmls to csv
+            aa.xlsx_to_csv(deduplication.raw_data)
+            outpath = ''
+            outpath = aa.do_data_diff(deduplication)
+            deduplication.status = True
+            deduplication.out_data = outpath
 
-    if deduplication.task_done is True:
-        return
-    try:
-        # cover xmls to csv
-        aa.xlsx_to_csv(deduplication.raw_data)
-
-
-        outpath = ''
-        outpath = aa.do_data_diff(deduplication)
-        deduplication.status = True
-        deduplication.out_data = outpath
-
-    except Exception as e:
-        deduplication.errorlog = e
-        deduplication.error = True
-    deduplication.task_done = True
-    deduplication.update_date = datetime.datetime.now()
-    deduplication.save()
-
+        except Exception as e:
+            deduplication.errorlog = e
+            deduplication.error = True
+        deduplication.task_done = True
+        deduplication.update_date = datetime.datetime.now()
+        deduplication.save()
+        #
 

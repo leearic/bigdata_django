@@ -21,7 +21,7 @@ class Origdata_admin(admin.ModelAdmin):
 class Deduplication_admin(admin.ModelAdmin):
     list_display = ['id', 'taskname', "raw_data", 'url', 'status', 'error', 'task_done', 'create_date', 'update_date']
     list_display_links = ['taskname']
-    # readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date', 'doituser']
+    readonly_fields = ["out_data", 'status', 'error', 'task_done', 'create_date', 'update_date', 'doituser']
     list_per_page = 10
     actions = ['do_data_diff']
 
@@ -45,16 +45,14 @@ class Deduplication_admin(admin.ModelAdmin):
 
     def do_data_diff(self, request, queryset):
 
-        if len(queryset) > 1:
-
-            messages.error(request, 'error ')
+        if len(queryset) > 5:
+            messages.error(request, 'error, only 5 task allowed ')
         else:
-            # queryset[0].status =True
-            queryset[0].save()
+            for ii in queryset:
+                ii.status = True
+                ii.save()
             data = serializers.serialize('json', queryset)
-
             do_single_data_diff.delay(data=data)
-
     def get_queryset(self, request):
         qs = super(Deduplication_admin, self).get_queryset(request)
         if request.user.is_superuser:

@@ -40,14 +40,14 @@ class Deduplication_admin(admin.ModelAdmin):
 
     def do_data_diff(self, request, queryset):
 
-        if len(queryset) > 1:
+        if len(queryset) > 5:
 
-            messages.error(request, 'error ')
+            messages.error(request, 'error, only 5 task allowed ')
         else:
-            queryset[0].status =True
-            queryset[0].save()
+            for ii in queryset:
+                ii.status = True
+                ii.save()
             data = serializers.serialize('json', queryset)
-
             do_data_diff.delay(data=data)
 
     def get_queryset(self, request):
