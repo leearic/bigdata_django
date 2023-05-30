@@ -17,7 +17,7 @@ class Origclum(models.Model):
         数据去重
     '''
     name = models.CharField(max_length=255, verbose_name="原始字段", help_text='原始字段')
-    doituser = models.ForeignKey(User, related_name='single_file_task_user', on_delete=models.CASCADE,
+    doituser = models.ForeignKey(User, on_delete=models.CASCADE,
                                  verbose_name='User')
     class Meta:
         verbose_name = u'原始字段'
@@ -30,7 +30,7 @@ class Origclum(models.Model):
 
 class Diffclum(models.Model):
     name = models.CharField(max_length=255, verbose_name="去重字段", help_text='去重字段')
-    doituser = models.ForeignKey(User, related_name='single_file_task_user', on_delete=models.CASCADE,
+    doituser = models.ForeignKey(User, on_delete=models.CASCADE,
                                  verbose_name='User')
     class Meta:
         verbose_name = u'去重字段'

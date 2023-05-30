@@ -17,7 +17,7 @@ class Origdata(models.Model):
     '''
     name = models.CharField(max_length=255, verbose_name="原始数据", help_text='原始数据')
     raw_data = models.FileField(verbose_name="原始数据", help_text='原始数据', upload_to=user_directory_path)
-    doituser = models.ForeignKey(User, related_name='single_file_task_user', on_delete=models.CASCADE,
+    doituser = models.ForeignKey(User, on_delete=models.CASCADE,
                                  verbose_name='User')
     class Meta:
         verbose_name = u'原始数据'
@@ -31,7 +31,7 @@ class Origdata(models.Model):
 class DiffData(models.Model):
     name = models.CharField(max_length=255, verbose_name="去重数据", help_text='去重数据')
     comparative_data = models.FileField(verbose_name="去重数据", help_text='去重数据', upload_to=user_directory_path)
-    doituser = models.ForeignKey(User, related_name='single_file_task_user', on_delete=models.CASCADE,
+    doituser = models.ForeignKey(User,  on_delete=models.CASCADE,
                                  verbose_name='User')
     class Meta:
         verbose_name = u'去重数据'
