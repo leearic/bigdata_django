@@ -20,7 +20,9 @@ class Origdata_admin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
         return qs.filter(doituser=request.user)
-
+    def save_model(self, request, obj, form, change):
+        obj.doituser = request.user
+        super().save_model(request, obj, form, change)
 
 
 

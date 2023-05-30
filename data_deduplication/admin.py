@@ -21,6 +21,9 @@ class Origdata_admin(admin.ModelAdmin):
             return qs
         return qs.filter(doituser=request.user)
 
+    def save_model(self, request, obj, form, change):
+        obj.doituser = request.user
+        super().save_model(request, obj, form, change)
 
 
 class Deduplication_admin(admin.ModelAdmin):
