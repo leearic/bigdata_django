@@ -13,10 +13,10 @@ from . models import Deduplication, Origdata, DiffData
 class Origdata_admin(admin.ModelAdmin):
     list_display = ['id', 'name', ]
     list_display_links = ['name']
-
+    readonly_fields = ['doituser']
 
     def get_queryset(self, request):
-        qs = super(Deduplication_admin, self).get_queryset(request)
+        qs = super(Origdata_admin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(doituser=request.user)
