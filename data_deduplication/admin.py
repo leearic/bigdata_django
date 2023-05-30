@@ -48,6 +48,16 @@ class Deduplication_admin(admin.ModelAdmin):
     # def has_change_permission(self, request, obj=None):
     #     return False
 
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'origdata':
+            kwargs['queryset'] = Origdata.objects.filter(doituser=request.user)
+
+        elif db_field.name == 'DiffData':
+            kwargs['queryset'] = DiffData.objects.filter(doituser=request.user)
+
+        return super(Deduplication_admin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+
     def do_data_diff(self, request, queryset):
 
         if len(queryset) > 5:

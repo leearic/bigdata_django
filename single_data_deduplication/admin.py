@@ -20,6 +20,7 @@ class Origdata_admin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
         return qs.filter(doituser=request.user)
+
     def save_model(self, request, obj, form, change):
         obj.doituser = request.user
         super().save_model(request, obj, form, change)
@@ -27,7 +28,7 @@ class Origdata_admin(admin.ModelAdmin):
 
 
 class Deduplication_admin(admin.ModelAdmin):
-    list_display = ['id', 'taskname', "raw_data", 'url', 'status', 'error', 'task_done', 'create_date', 'update_date']
+    list_display = ['id', 'taskname', "raw_data", 'url', 'status', 'error', 'task_done', 'create_date', 'update_date' ]
     list_display_links = ['taskname']
     readonly_fields = ["out_data", 'create_date', 'update_date', 'doituser', 'errorlog']
     list_per_page = 10
@@ -35,6 +36,14 @@ class Deduplication_admin(admin.ModelAdmin):
 
     filter_horizontal = ['origdata', 'DiffData']
 
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == 'origdata':
+            kwargs['queryset'] = Origclum.objects.filter(doituser=request.user)
+
+        elif db_field.name == 'DiffData':
+            kwargs['queryset'] = Diffclum.objects.filter(doituser=request.user)
+
+        return super(Deduplication_admin, self).formfield_for_manytomany(db_field, request, **kwargs)
 
     def url(self, obj):
         if obj.status is True:
