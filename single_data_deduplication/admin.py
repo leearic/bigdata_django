@@ -15,6 +15,12 @@ class Origdata_admin(admin.ModelAdmin):
     list_display_links = ['name']
 
 
+    def get_queryset(self, request):
+        qs = super(Deduplication_admin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(doituser=request.user)
+
 
 
 
@@ -53,6 +59,8 @@ class Deduplication_admin(admin.ModelAdmin):
                 ii.save()
             data = serializers.serialize('json', queryset)
             do_single_data_diff.delay(data=data)
+
+
     def get_queryset(self, request):
         qs = super(Deduplication_admin, self).get_queryset(request)
         if request.user.is_superuser:

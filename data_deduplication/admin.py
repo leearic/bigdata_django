@@ -15,6 +15,13 @@ class Origdata_admin(admin.ModelAdmin):
     list_display_links = ['name']
 
 
+    def get_queryset(self, request):
+        qs = super(Deduplication_admin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(doituser=request.user)
+
+
 
 class Deduplication_admin(admin.ModelAdmin):
     list_display = ['id', 'taskname', 'url', 'status', 'error', 'task_done', 'create_date', 'update_date']
@@ -32,11 +39,11 @@ class Deduplication_admin(admin.ModelAdmin):
     # def has_add_permission(self, request):
     #     return  False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-    def has_change_permission(self, request, obj=None):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
+    #
+    # def has_change_permission(self, request, obj=None):
+    #     return False
 
     def do_data_diff(self, request, queryset):
 
