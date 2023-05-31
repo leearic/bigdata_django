@@ -17,8 +17,20 @@ import datetime
 class XLSXUTIL():
     def xlsx_to_csv(self, xlsx_file_path):
         try:
-            data_xls = pd.read_excel(xlsx_file_path, index_col=0, engine='openpyxl')
-            data_xls.to_csv(str(xlsx_file_path) + '.csv')
+            data_xls = pd.read_excel(xlsx_file_path, engine='openpyxl')
+            data_xls.head()
+            col_names = data_xls.columns.tolist()
+            print(col_names)
+            for k, v in enumerate(col_names):
+                print(k)
+                col_names[k] = v.replace(" ", "_")
+                print(col_names[k])
+
+            print(col_names)
+            data_xls.columns = col_names
+
+            print(data_xls.columns)
+            data_xls.to_csv('./static/data/' + str(xlsx_file_path) + '.csv')
             return True
         except Exception as e:
             print(e)
