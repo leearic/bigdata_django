@@ -44,8 +44,7 @@ def do_data_diff(data):
     data = json.loads(data)
     csvmodel = CsvFiles.objects.get(id=data[0]["pk"])
     out_file_path = './static/data/' + str(csvmodel.raw_data) + '.csv'
-    logger.info(csvmodel.task_name)
-    logger.info('hello world')
+
     df = pd.read_excel(csvmodel.raw_data, engine='openpyxl')
 
 
@@ -69,7 +68,7 @@ def do_data_diff(data):
     acsv2vcard(out_file_path, ',', out_file_path.split('.xlsx.csv')[0])
     out_path = (out_file_path.split('.xlsx.csv')[0] + '/../all.vcf').split('/static/data/')[1]
     logger.info(out_path)
-    cmd = 'cat ' + out_file_path.split('.xlsx.csv')[0] + '/*.vcf > ' + out_file_path.split('.xlsx.csv')[0] + '/../all.vcf'
+    cmd = 'find  ' + out_file_path.split('.xlsx.csv')[0] + ' -name   *.vcf  | xargs  cat  >> ' + out_file_path.split('.xlsx.csv')[0] + '/../all.vcf'
     logger.info(cmd)
 
     os.system(cmd)
