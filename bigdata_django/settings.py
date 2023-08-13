@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'data_deduplication.apps.DataDeduplicationConfig',
-    'single_data_deduplication.apps.SingleDataDeduplicationConfig'
+    'single_data_deduplication.apps.SingleDataDeduplicationConfig',
+    'easy_csv2cvf.apps.EasyCsv2CvfConfig'
 ]
 
 MIDDLEWARE = [

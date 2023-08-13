@@ -1,3 +1,4 @@
+aiocontextvars==0.2.2
 amqp==1.4.9
 anyjson==0.3.3
 asgiref==3.4.1
@@ -8,17 +9,22 @@ click==8.0.4
 click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.2.0
+contextvars==2.4
+csv2vcard==0.2.2
 Django==3.1.4
 django-celery==3.3.0
 django-simpleui==2023.3.1
 et-xmlfile==1.1.0
+Faker==14.2.1
+immutables==0.19
 importlib-metadata==4.8.3
 kombu==3.0.37
+loguru==0.7.0
 numpy==1.19.5
 openpyxl==3.1.2
 packaging==21.3
 pandas==1.1.5
-# pkg-resources==0.0.0
+pkg-resources==0.0.0
 prompt-toolkit==3.0.36
 pyparsing==3.0.9
 python-dateutil==2.8.2
