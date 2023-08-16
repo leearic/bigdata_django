@@ -54,7 +54,7 @@ def do_data_diff(data):
         aa['first_name'] = fackers.last_name()
         aa['org'] = fackers.company()
         aa['title'] = fackers.job()
-        aa['phone'] = df.iloc[row, 0]
+        aa['phone'] = str('00' + str(df.iloc[row, 0]))
         aa['email'] = fackers.email()
         aa['website'] = fackers.url()
         aa['street'] = fackers.address()
